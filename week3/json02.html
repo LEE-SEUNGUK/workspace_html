@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비동기 방식으로 json 데이터 받기</title>
+    <script>
+        let url = "https://api.upbit.com/v1/market/all";
+        let ajax = new XMLHttpRequest();  // 비동기 통신을 지원하는 객체
+        function fn_get() {
+            ajax.open('GET', url, true);
+            ajax.send();  // 요청!
+        }
+        ajax.onreadystatechange = function() {
+            // 4 : 데이터를 리턴 받았을때, 200 : 정상 응답이 왔을때
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                console.log(ajax);
+                console.log(ajax.responseText);  // 응답 문자열
+                let arr = JSON.parse(ajax.responseText);
+                //console.log(arr);
+                // all_table에 출력해주세요 tr td ^^
+                let str = '';
+                for (let i = 0; i < arr.length; i++) {
+                    //console.log(arr[i]['market']);
+                    str += '<tr onclick="alert(\'' + arr[i]['market'] + '\')">';
+                    str += '<tr>';
+                    str += '<td>' + arr[i]['market'] + '</td>';
+                    str += '<td>' + arr[i]['korean_name'] + '</td>';
+                    str += '<td>' + arr[i]['korean_name'] + '</td>';
+                    str += '</tr>';
+                }
+                document.getElementById('all_table').innerHTML = str;
+
+                /*let trs = document.getElementsByTagName('tr');
+                for (let i = 0; i < trs.length; i++)  {
+                    trs[i].addEventListener('click', function(e) {
+                        console.log(e.target);
+                        console.log(this);
+                        console.log(this.children[0].innerHTML);
+                        alert(this.children[0].innerHTML);
+                    });
+                }*/
+            }
+        };
+    </script>
+</head>
+<body>
+    <button type="button" onclick="fn_get()">요청!</button>
+    <div class="row">
+        <div id="left_div">
+            <table id="all_table"></table>
+        </div>
+    </div>
+</body>
+</html>

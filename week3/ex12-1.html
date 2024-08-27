@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내가 만든 쿠키</title>
+    <script>
+        function setCookie(name, val, expireDate) {
+            // 쿠키에서 사용되는 문자열 형식으로
+            let cookieStr = name + "=" + val + ((expireDate == null) ? "" : ("; expires=" + expireDate.toUTCString()));
+            document.cookie = cookieStr;
+        }
+        function getCookie(name) {
+            let str = name + "=";
+            let pairs = document.cookie.split(";");
+            for (let i = 0; i < pairs.length; i++) {
+                let pair = pairs[i].trim(); // 공백 제거
+                let unit = pair.split("=");
+                if (unit[0] == name) {
+                    return unit[1];
+                }
+            }
+        }
+
+        let userName = getCookie("username");
+        let count = getCookie("count");
+        let expires = new Date();
+        // 쿠키에 username 이라는 key에 value가 없으면
+        if (userName == null) {
+            count = 0;
+            while (true) {
+                userName = prompt("이름을 입력하세요^^");
+                if (userName == null || userName == "") {
+                    alert("입력 해야함!!");
+                } else {
+                    // 유효기간 1년 쿠키 생성
+                    expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000));
+                    setCookie("username", userName, expires);
+                    break;
+                }
+            }
+        }
+
+        count++;
+        expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000)); // 다시 내년으로
+        setCookie("count", count, expires);
+        document.write("<p> 어서 오세요 '" + userName + "' 님의 " + count + "번째 방문을 환영</p>");
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

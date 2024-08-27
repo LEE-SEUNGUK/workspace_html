@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./nameList.css">
+    <script>
+        window.onload = function() {
+            document.getElementById('myForm').addEventListener('keypress', function(e) {
+                // e (해당 시점에 생성된 이벤트 객체)
+                //console.log(e)
+                if (e.key == 'Enter') {
+                    e.preventDefault();   // 디폴트 행동 취소
+                    fn_create();
+                }
+            });
+        }
+        function fn_create() {
+            let name = document.getElementById("userName");
+            //console.log(name);
+            //console.log(name.value);
+
+            // ptag 생성
+            let newP = document.createElement('p');
+            newP.innerHTML = name.value;  // 사용자 입력 값
+            name.value = '';              // 입력창에서 지우기
+
+            // 삭제 생성
+            let delBtn = document.createElement("span");
+            delBtn.innerHTML = 'X';
+            delBtn.setAttribute('class', 'del');  // 속성 추가
+            delBtn.onclick = function() {
+                this.parentElement.parentElement.removeChild(this.parentElement);
+            }
+
+            newP.appendChild(delBtn);
+
+            let nameList = document.getElementById('nameList');
+            nameList.insertBefore(newP, nameList.childNodes[0]);
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h1>참가 신청서</h1>
+        <form id="myForm">
+            <input type="text" id="userName" placeholder="이름을 입력하세요" required>
+            <button type="button" onclick="fn_create()">신청</button>
+        </form>
+        <hr>
+        <div id="nameList"></div>
+    </div>
+    <script>
+    </script>
+</body>
+</html>

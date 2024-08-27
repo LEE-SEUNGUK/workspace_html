@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json 파일 가져오기</title>
+</head>
+<body>
+    <h2>employee list</h2>
+    <hr>
+    <button onclick="fn_get()">가져오기!</button>
+    <ul id="employee"></ul>
+    <script>
+        function fn_get() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', './data/ex.json', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    
+                    var employees = data.employees;
+
+                    var employeeList = document.getElementById('employee');
+                    employees.forEach(function(employee) {
+                        var li = document.createElement('li');
+                        li.textContent = employee.firstName + " " + employee.lastName + " (" + employee.email + ")";
+                        employeeList.appendChild(li);
+                    });
+
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

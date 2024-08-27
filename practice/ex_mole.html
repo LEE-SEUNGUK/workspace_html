@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두더지 게임</title>
+    <style>
+        .game-board {
+            width: 600px;
+            height: 600px;
+            position: relative;
+        }
+
+        .mole {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            display: none;
+        }
+
+        .mole:hover {
+            cursor: pointer;
+        }
+
+        .mole:active {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>점수 : <span id="score">0</span></h1>
+    <h1>남은시간: <span id="time">30</span></h1>
+    <div class="game-board">
+        <img src="./images/두더지.PNG" onclick="score_check()" class="mole" id="mole" alt="">
+    </div>
+    <!--
+        1. 일정 시간마다 나타나게       showMole() 함수
+            - 이미지의.style.display를 block으로
+        2. 사라지게                     hideMole() 함수
+            - 이미지의.style.display를 none으로 
+        3. 랜덤한 위치                  randomPosition() 함수
+            - 이미지의.style.left
+            - 이미지의.style.top을 랜덤하게 변경
+        4. 점수 계산 (클릭이벤트) & 시간 감소
+            - 이미지를 클릭했을때
+            - 1초마다 시간감소
+    -->
+    <script>
+        let score = 0;     // 게임점수
+        let time = 30;      // 시간
+        let gameInterval = 700;  // 특정시간마다 반복시킬
+
+        function randomPosition() {
+            let randleft = Math.random() * 100;
+            let randtop = Math.random() * 100;
+            let img = document.getElementById('mole');
+            img.style.left = randleft+"%";
+            img.style.top = randtop+"%";
+            //console.log(randleft);
+            //console.log(randtop);
+        }
+
+        function showMole() {
+            let img = document.getElementById('mole');
+            img.style.display = "block";
+            //console.log("보여줘")
+            randomPosition();
+        }
+
+        function hideMole() {
+            let img = document.getElementById('mole');
+            img.style.display = "none";
+            //console.log("사라져")
+        }
+
+        function score_check() {
+            let img = document.getElementById('mole');
+            score++;
+            let setScore = document.getElementById("score");
+            setScore.innerHTML = score;
+            img.style.display = "none";
+        }
+
+        let timefun = setInterval(time_check, 1000);
+        let hidefun = setInterval(hideMole, gameInterval);
+        let showfun = setInterval(showMole, gameInterval*2);
+
+        window.onload = function () {
+            timefun;
+            hidefun;
+            showfun;
+        }
+
+        function time_check() {
+            time--;
+            console.log(time);
+            let setTime = document.getElementById("time");
+            setTime.innerHTML = time;
+
+            if (time == 0) {
+                clearInterval(timefun);
+                clearInterval(hidefun);
+                clearInterval(showfun);
+                alert("게임 오버 당신의 점수는 " + score + " 점 입니다.");
+            }
+        }
+
+    </script>
+</body>
+</html>
