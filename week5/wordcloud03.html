@@ -28,7 +28,7 @@
             
             let wordCloudArr = [];
             for (let key in count) {
-                wordCloudArr.push([key, count[key]]);  // [[java:30], [css:20]] 형태로
+                wordCloudArr.push([key, count[key]]);  // [[java:30], [css:20]] 형태로 변경
             }
             WordCloud(document.getElementById('myCanvas'), { list: wordCloudArr, backgroundColor: 'black', fontSize: { from: 100, to: 200 } });
         };
