@@ -18,7 +18,7 @@
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i];
                     if(file && file.type.match('image.*')){
-                        let reader = new FileReader(); // 파일리더
+                        let reader = new FileReader(); // 파일리더 왜 안될까
 
                         reader.onload = function(event){
                             let imgElement = document.createElement('img');
