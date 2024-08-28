@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>워드클라우드 연습</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="1000px" height="800px"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.js"></script>
+    <script>
+        let str = "JAVA JAVA JSP C JAVA JS CSS CSS";
+
+        function countWords(doc) {
+            let counts = {};
+            // 1. 띄어쓰기를 기준으로 배열로
+            let arr = doc.split(' ');
+            console.log(arr);
+            // 2. 영문은 소문자로 변경
+            for (let word of arr) {
+                word = word.toLowerCase().trim();
+                console.log(word);
+                // 3. 1글자 이상만 + 10
+                if (word != '' && word.length > 1) {
+                    // 최초면 10, 있으면 + 10
+                    counts[word] = counts[word] ? counts[word] + 10 : 10;
+                }
+
+            }
+            return counts;
+        }
+
+        console.log(countWords(str));
+        // 결과가: {java: 30, jsp: 20, c: 10, css: 20} 되도록 countWords를 완성하시오
+
+        let obj = countWords(str);
+        let wordCloudArr = [];
+        for (let key in obj) {
+            wordCloudArr.push([key, obj[key]]); // [[java:30,[css:20]] 형태로
+        }
+        WordCloud(document.getElementById('myCanvas'), 
+        {list:wordCloudArr,
+         backgroundColor: 'black',
+         fontSize:{from:100, to:200}
+        });
+
+    </script>
+</body>
+
+</html>

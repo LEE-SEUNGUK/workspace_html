@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>워드클라우드 연습</title>
+</head>
+
+<body>
+    <input type="file" onchange="readFile(this)">
+    <canvas id="myCanvas" width="1000px" height="800px"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.js"></script>
+    <script>
+        // readFile 함수 추가
+
+        // 1. input type = file 파일 선택을 하면 readFile 호출
+        // 2. FileReader가 onload되면 countWords 호출
+        // 3. wordCloud 사용 파일형태로 변경 후 워드클라우드 생성
+
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let data = e.target.result;
+            console.log(data);
+            let count = countWords(data);
+            console.log(count);
+
+            
+            let wordCloudArr = [];
+            for (let key in count) {
+                wordCloudArr.push([key, count[key]]);  // [[java:30], [css:20]] 형태로
+            }
+            WordCloud(document.getElementById('myCanvas'), { list: wordCloudArr, backgroundColor: 'black', fontSize: { from: 100, to: 200 } });
+        };
+
+        function readFile(obj) {
+            let files = obj.files;
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                console.log(file.name);
+                console.log(file.type);
+                console.log(file.size);
+                if (file.name.indexOf('.csv') || file.name.indexOf('.txt')) {
+                    reader.readAsText(file);
+                }
+            }
+        }
+
+        function countWords(doc) {
+            let counts = {};
+            // 1. 띄어쓰기를 기준으로 배열로
+            let arr = doc.split(' ');
+            console.log(arr);
+            // 2. 영문은 소문자로 변경
+            for (let word of arr) {
+                word = word.toLowerCase().trim();
+                console.log(word);
+                // 3. 1글자 이상만 + 10
+                if (word != '' && word.length > 1) {
+                    // 최초면 10, 있으면 + 10
+                    counts[word] = counts[word] ? counts[word] + 100 : 100;
+                }
+
+            }
+            return counts;
+        }
+
+
+
+    </script>
+</body>
+
+</html>
