@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>유효성 검사</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -26,8 +27,18 @@
 
                     form.classList.add('was-validated')
                 }, false)
-            })
-        })
+            });
+
+            $('#validationCustom05').click(function () {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        $("#validationCustom05").val(data.address);
+                        console.log(data);
+                    }
+                }).open();
+            });
+        });
+
     </script>
 </head>
 
@@ -51,63 +62,63 @@
                     <div class="col-md-4">
                         <label for="validationCustom01" class="form-label">이름</label>
                         <input type="text" class="form-control" id="validationCustom01" value="팽수" required>
-                        <div class="valid-feedback"> 
+                        <div class="valid-feedback">
                             굿!
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label for="validationCustom02" class="form-label">영문</label>
-                        <input type="text" class="form-control" id="validationCustom02" value="pangsu" required pattern="[a-zA-Z]{3,30}">
+                        <input type="text" class="form-control" id="validationCustom02" value="pangsu" required
+                            pattern="[a-zA-Z]{3,30}">
                         <div class="valid-feedback">
                             완벽!
                         </div>
                         <div class="invalid-feedback">
-                            영문자!! and 글자수 3 ~ 30
+                            영문자! and 글자수 3 ~ 30
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label for="validationCustomUsername" class="form-label">Username</label>
+                        <label for="validationCustomUsername" class="form-label">email</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                            <input type="text" class="form-control" id="validationCustomUsername"
+                            <input type="email" class="form-control" id="validationCustomUsername"
                                 aria-describedby="inputGroupPrepend" required>
                             <div class="invalid-feedback">
-                                Please choose a username.
+                                이메일 형식만 가능!
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="validationCustom03" class="form-label">City</label>
-                        <input type="text" class="form-control" id="validationCustom03" required>
-                        <div class="invalid-feedback">
-                            Please provide a valid city.
-                        </div>
+                    <div class="col-md-3">
+                        <label for="validationCustom03" class="form-label">생일</label>
+                        <input type="date" class="form-control" id="validationCustom03">
                     </div>
                     <div class="col-md-3">
-                        <label for="validationCustom04" class="form-label">State</label>
+                        <label for="validationCustom04" class="form-label">성별</label>
                         <select class="form-select" id="validationCustom04" required>
-                            <option selected disabled value="">Choose...</option>
-                            <option>...</option>
+                            <option selected disabled value="">선택하세요...</option>
+                            <option value="M">남자</option>
+                            <option value="F">여자</option>
                         </select>
                         <div class="invalid-feedback">
-                            Please select a valid state.
+                            선택하시오!
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="validationCustom05" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="validationCustom05" required>
+                        <label for="validationCustom05" class="form-label">주소</label>
+                        <input type="text" class="form-control" id="validationCustom05" readonly
+                            required>
                         <div class="invalid-feedback">
-                            Please provide a valid zip.
+                            주소를 검색하여 선택하세요!
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
                             <label class="form-check-label" for="invalidCheck">
-                                Agree to terms and conditions
+                                개인정보 저장 You Know?
                             </label>
                             <div class="invalid-feedback">
-                                You must agree before submitting.
+                                동의하라고
                             </div>
                         </div>
                     </div>
